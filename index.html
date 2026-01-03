@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPS Clone - Next Day Delivery for Susan Price</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --ups-brown: #351c15;
+            --ups-gold: #ffb500;
+            --ups-light: #f5f5f5;
+            --ups-dark: #1a1a1a;
+            --ups-red: #d50032;
+            --ups-green: #0a7e3a;
+        }
+        
+        body {
+            color: var(--ups-dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--ups-brown);
+            color: white;
+            padding: 0.8rem 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--ups-gold);
+            font-size: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--ups-gold);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .user-actions a:hover {
+            color: var(--ups-gold);
+        }
+        
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .main-nav a:hover {
+            color: var(--ups-gold);
+        }
+        
+        .urgent-delivery {
+            background-color: var(--ups-red);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2076&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .delivery-time {
+            background-color: var(--ups-gold);
+            color: var(--ups-brown);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            background-color: var(--ups-red);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: #b3002a;
+        }
+        
+        /* Active Delivery Section */
+        .active-delivery {
+            background-color: var(--ups-green);
+            color: white;
+            padding: 2rem 0;
+            margin-top: -1px;
+        }
+        
+        .active-delivery .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .delivery-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .delivery-details {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .detail-value {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Tracking Section */
+        .tracking-section {
+            padding: 3rem 0;
+            background-color: var(--ups-light);
+        }
+        
+        .tracking-box {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .tracking-box h3 {
+            color: var(--ups-brown);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .tracking-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tracking-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .tracking-input button {
+            background-color: var(--ups-brown);
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        /* Delivery Details Card */
+        .delivery-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--ups-green);
+        }
+        
+        .delivery-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .delivery-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ups-green);
+            font-weight: bold;
+        }
+        
+        .delivery-id {
+            font-weight: bold;
+            color: var(--ups-brown);
+            font-size: 1.2rem;
+        }
+        
+        .delivery-card-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .delivery-column h4 {
+            color: var(--ups-brown);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .info-value {
+            font-weight: bold;
+        }
+        
+        /* Delivery Timeline */
+        .timeline {
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--ups-gold);
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .timeline-marker {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background-color: var(--ups-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ups-brown);
+            font-size: 1.2rem;
+            z-index: 1;
+            margin-right: 1.5rem;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            padding-top: 0.5rem;
+        }
+        
+        .timeline-content h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: var(--ups-brown);
+            font-size: 2rem;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-icon {
+            background-color: var(--ups-brown);
+            color: var(--ups-gold);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        
+        .service-content {
+            padding: 1.5rem;
+        }
+        
+        .service-content h4 {
+            color: var(--ups-brown);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        /* Next Day Delivery Info */
+        .next-day-info {
+            padding: 3rem 0;
+            background-color: var(--ups-light);
+        }
+        
+        .info-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .info-text h3 {
+            color: var(--ups-brown);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-text ul {
+            list-style-position: inside;
+            margin-top: 1rem;
+        }
+        
+        .info-text li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .info-text i {
+            color: var(--ups-gold);
+            margin-right: 10px;
+        }
+        
+        .info-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--ups-dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h4 {
+            color: var(--ups-gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .main-nav {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .tracking-input {
+                flex-direction: column;
+            }
+            
+            .info-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .delivery-time {
+                font-size: 1.2rem;
+            }
+            
+            .active-delivery .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .delivery-card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h1>UPS <span>Delivery</span></h1>
+                </div>
+                <div class="user-actions">
+                    <a href="#"><i class="fas fa-user"></i> Sign In/Register</a>
+                    <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Tracking</a></li>
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Locations</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+                <div class="urgent-delivery">
+                    <i class="fas fa-clock"></i>
+                    <span>NEXT DAY DELIVERY</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Need It Delivered Tomorrow?</h2>
+            <p>We guarantee next day delivery for packages shipped before 5 PM. Fast, reliable, and tracked from pickup to delivery.</p>
+            <div class="delivery-time">
+                <i class="fas fa-bolt"></i> GUARANTEED NEXT DAY DELIVERY
+            </div>
+            <br>
+            <a href="#ship-now" class="cta-button">SHIP NOW <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Active Delivery Banner -->
+    <section class="active-delivery">
+        <div class="container">
+            <div class="delivery-info">
+                <h3><i class="fas fa-box"></i> Active Delivery for Susan Price</h3>
+                <div class="delivery-details">
+                    <div class="detail-item">
+                        <span class="detail-label">DELIVERY DATE</span>
+                        <span class="detail-value">January 3, 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">TRACKING NUMBER</span>
+                        <span class="detail-value">1Z2026SP987654321</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">SERVICE</span>
+                        <span class="detail-value">UPS Next Day Air®</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">STATUS</span>
+                        <span class="detail-value">In Transit</span>
+                    </div>
+                </div>
+            </div>
+            <a href="#tracking" class="cta-button" style="background-color: white; color: var(--ups-green);">VIEW DETAILS</a>
+        </div>
+    </section>
+
+    <!-- Tracking Section -->
+    <section class="tracking-section" id="tracking">
+        <div class="container">
+            <div class="tracking-box">
+                <h3>Track Your Package</h3>
+                <div class="tracking-input">
+                    <input type="text" placeholder="Enter your tracking number" value="1Z2026SP987654321">
+                    <button>TRACK <i class="fas fa-search"></i></button>
+                </div>
+                
+                <!-- Delivery Details Card -->
+                <div class="delivery-card">
+                    <div class="delivery-card-header">
+                        <div>
+                            <div class="delivery-id">Tracking #: 1Z2026SP987654321</div>
+                            <div class="delivery-status">
+                                <i class="fas fa-shipping-fast"></i>
+                                <span>IN TRANSIT • SCHEDULED FOR DELIVERY TOMORROW</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="info-value" style="font-size: 1.3rem; color: var(--ups-green);">January 3, 2026</div>
+                            <div class="info-label">Estimated Delivery</div>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-card-body">
+                        <div class="delivery-column">
+                            <h4>Shipment Details</h4>
+                            <div class="info-row">
+                                <span class="info-label">Recipient:</span>
+                                <span class="info-value">Susan Price</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Service:</span>
+                                <span class="info-value">UPS Next Day Air®</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Weight:</span>
+                                <span class="info-value">5.2 lbs</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Reference:</span>
+                                <span class="info-value">ORDER-2026-001</span>
+                            </div>
+                        </div>
+                        
+                        <div class="delivery-column">
+                            <h4>Delivery Information</h4>
+                            <div class="info-row">
+                                <span class="info-label">Delivery Address:</span>
+                                <span class="info-value">123 Main St, Anytown, USA</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Delivery Date:</span>
+                                <span class="info-value">January 3, 2026</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Delivery Window:</span>
+                                <span class="info-value">9:00 AM - 1:00 PM</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Signed By:</span>
+                                <span class="info-value">Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Delivery Timeline -->
+                    <div class="timeline">
+                        <h4 style="color: var(--ups-brown); margin-bottom: 1.5rem;">Shipment Progress</h4>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h5>Package Received</h5>
+                                <p>January 2, 2026 • 2:30 PM</p>
+                                <p>Origin Scan • Los Angeles, CA</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h5>Departed Facility</h5>
+                                <p>January 3, 2026 • 8:15 AM</p>
+                                <p>In transit to destination</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h5>In Transit</h5>
+                                <p>January 3, 2026 • Present</p>
+                                <p>Package is on the way to your city</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker">
+                                <i class="far fa-clock"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h5>Scheduled Delivery</h5>
+                                <p>January 3, 2026 • By 1:00 PM</p>
+                                <p>Your delivery is scheduled for tomorrow</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">Our Delivery Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="service-content">
+                        <h4>Next Day Air</h4>
+                        <p>Guaranteed next business day delivery for your urgent shipments. Available throughout the country.</p>
+                        <a href="#" class="cta-button" style="padding: 0.7rem 1.5rem; font-size: 1rem; margin-top: 1rem;">Learn More</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="service-content">
+                        <h4>International Shipping</h4>
+                        <p>Fast, reliable international delivery with customs clearance included. Delivery times as fast as 1-3 business days.</p>
+                        <a href="#" class="cta-button" style="padding: 0.7rem 1.5rem; font-size: 1rem; margin-top: 1rem;">Learn More</a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="service-content">
+                        <h4>Package Pickup</h4>
+                        <p>Schedule a pickup at your home or office. We'll come to you so you don't have to go anywhere.</p>
+                        <a href="#" class="cta-button" style="padding: 0.7rem 1.5rem; font-size: 1rem; margin-top: 1rem;">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Shipping Services</h4>
+                    <ul>
+                        <li><a href="#">Next Day Delivery</a></li>
+                        <li><a href="#">2nd Day Air</a></li>
+                        <li><a href="#">Ground Shipping</a></li>
+                        <li><a href="#">International Shipping</a></li>
+                        <li><a href="#">Freight Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Tracking & Support</h4>
+                    <ul>
+                        <li><a href="#">Track Package</a></li>
+                        <li><a href="#">Schedule Pickup</a></li>
+                        <li><a href="#">Shipping Rates</a></li>
+                        <li><a href="#">Customer Support</a></li>
+                        <li><a href="#">File a Claim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                        <li><a href="#">Press Room</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Connect With Us</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> 1-800-742-5877</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 UPS Delivery Parcel</p>
+                <p>UPS is a registered trademark of United Parcel Service of America, Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple form submission simulation
+        document.querySelector('.tracking-input button').addEventListener('click', function() {
+            const trackingInput = document.querySelector('.tracking-input input');
+            if(trackingInput.value.trim() === '') {
+                alert('Please enter a tracking number');
+                trackingInput.focus();
+            } else {
+                // Simulate checking for Susan Price's package
+                if(trackingInput.value.includes('2026SP')) {
+                    alert('Tracking information for Susan Price (Delivery: Jan 4, 2026) is already displayed.');
+                } else {
+                    alert('Tracking information for ' + trackingInput.value + ' would be displayed here in a real application.');
+                }
+            }
+        });
+        
+        // View Details button
+        document.querySelector('.active-delivery .cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('tracking').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Make tracking input respond to Enter key
+        document.querySelector('.tracking-input input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                document.querySelector('.tracking-input button').click();
+            }
+        });
+        
+        // Simulate live status updates
+        function updateDeliveryStatus() {
+            const statusElement = document.querySelector('.delivery-status span');
+            const timelineMarkers = document.querySelectorAll('.timeline-marker i');
+            
+            // Randomly update status (for demo purposes)
+            const statuses = [
+                "IN TRANSIT • SCHEDULED FOR DELIVERY TOMORROW",
+                "IN TRANSIT • ARRIVED AT LOCAL FACILITY",
+                "OUT FOR DELIVERY • TODAY"
+            ];
+            
+            // Cycle through statuses every 5 seconds for demo
+            let currentIndex = 0;
+            setInterval(() => {
+                statusElement.textContent = statuses[currentIndex];
+                currentIndex = (currentIndex + 1) % statuses.length;
+                
+                // Update timeline marker for "Out for delivery"
+                if(currentIndex === 2) {
+                    timelineMarkers[2].className = "fas fa-check";
+                    timelineMarkers[3].className = "fas fa-shipping-fast";
+                } else if(currentIndex === 0) {
+                    timelineMarkers[2].className = "fas fa-shipping-fast";
+                    timelineMarkers[3].className = "far fa-clock";
+                }
+            }, 5000);
+        }
+        
+        // Initialize the status updater
+        updateDeliveryStatus();
+    </script>
+</body>
+</html>
